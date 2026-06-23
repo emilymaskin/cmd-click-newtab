@@ -7,10 +7,12 @@ injected.src = chrome.runtime.getURL('interceptor.js');
 let awaitingNavigation = false;
 
 // Receive intercepted navigation URLs from the page context.
+// Route through the background service worker to avoid popup-blocker issues
+// (window.open loses user gesture context inside a custom event handler).
 window.addEventListener('__cmdclick_nav__', (e) => {
   if (!awaitingNavigation) return;
   awaitingNavigation = false;
-  window.open(e.detail, '_blank');
+  chrome.runtime.sendMessage({ type: 'open-tab', url: e.detail });
 });
 
 document.addEventListener('click', (e) => {
