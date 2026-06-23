@@ -28,8 +28,9 @@ document.addEventListener('click', (e) => {
     el = el.parentElement;
   }
 
-  // Fallback: no anchor found — let the click execute but intercept any
-  // resulting navigation and redirect it to a new tab.
+  // Fallback: no anchor found — signal the interceptor, then let the click
+  // execute. The interceptor will suppress the navigation and notify us.
   awaitingNavigation = true;
   setTimeout(() => { awaitingNavigation = false; }, 500);
+  window.dispatchEvent(new CustomEvent('__cmdclick_active__'));
 }, true); // capture phase so we run before the page's own handlers
