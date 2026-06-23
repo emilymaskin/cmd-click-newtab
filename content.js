@@ -10,6 +10,7 @@ let awaitingNavigation = false;
 // Route through the background service worker to avoid popup-blocker issues
 // (window.open loses user gesture context inside a custom event handler).
 window.addEventListener('__cmdclick_nav__', (e) => {
+
   if (!awaitingNavigation) return;
   awaitingNavigation = false;
   chrome.runtime.sendMessage({ type: 'open-tab', url: e.detail });
@@ -32,6 +33,7 @@ document.addEventListener('click', (e) => {
 
   // Fallback: no anchor found — signal the interceptor, then let the click
   // execute. The interceptor will suppress the navigation and notify us.
+
   awaitingNavigation = true;
   setTimeout(() => { awaitingNavigation = false; }, 500);
   window.dispatchEvent(new CustomEvent('__cmdclick_active__'));
