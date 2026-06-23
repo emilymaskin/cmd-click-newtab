@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Cmd+Click New Tab",
+  "name": "Command My Click",
   "version": "1.0",
   "description": "Opens links in a new tab when Cmd+clicked, even if the element uses JS navigation.",
   "web_accessible_resources": [
